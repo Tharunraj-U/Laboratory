@@ -21,13 +21,10 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
-        // Create a new user
         User user = new User();
-        user.setEmail(registerRequest.getEmail());
         user.setPassword(registerRequest.getPassword());
         user.setUsername(registerRequest.getUsername());
-        user.setRole("ROLE_USER");  // Set default role
-
+        user.setRole(registerRequest.getRole());
         boolean isRegistered = userService.register(user);
 
         if (isRegistered) {

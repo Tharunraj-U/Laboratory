@@ -27,12 +27,12 @@ public class JwtUtils {
 
     // Generate token using user details
     public String generateToken(UserDetailsImpl userDetails) {
-        String email = userDetails.getEmail();
+        String username = userDetails.getUsername();
         String roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        return Jwts.builder().setSubject(email)
+        return Jwts.builder().setSubject(username)
                 .claim("roles", roles)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000)) // 1 hour

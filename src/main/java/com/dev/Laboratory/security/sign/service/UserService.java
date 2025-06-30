@@ -33,7 +33,7 @@ public class UserService {
     private JwtUtils jwtUtils;
 
     public boolean register(User user) {
-        if(userRepo.existsByEmail(user.getEmail()))return false;
+        if(userRepo.existsByUsername(user.getUsername()))return false;
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
         return true;
@@ -41,9 +41,10 @@ public class UserService {
 
 
     public String authenticate(LoginRequest loginRequest) {
-        Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),loginRequest.getPassword()));
+
+        Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword()));
         if (authentication == null) {
-            throw new BadCredentialsException("Invalid email or password");
+            throw new BadCredentialsException("Invalid UserName or password");
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails=(UserDetailsImpl) authentication.getPrincipal();

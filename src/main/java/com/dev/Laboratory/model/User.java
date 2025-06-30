@@ -1,16 +1,10 @@
 package com.dev.Laboratory.model;
 
-
+import com.dev.Laboratory.security.sign.dto.Role;
 import jakarta.persistence.*;
-
-
-
-import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
-@Table(name = "users") // optional, avoids using reserved keywords like 'user' in some databases
+@Table(name = "users")
 public class User {
 
     @Id
@@ -20,15 +14,13 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
     @Column(nullable = false)
     private String password;
 
-    private String role = "USER";
+    @Enumerated(EnumType.STRING)
+    private Role role; // now uses your custom enum
 
-    // Getters and Setters
+    // Getters and setters...
 
     public Long getId() {
         return id;
@@ -36,24 +28,6 @@ public class User {
 
     public User setId(Long id) {
         this.id = id;
-        return this;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public User setUsername(String username) {
-        this.username = username;
-        return this;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public User setEmail(String email) {
-        this.email = email;
         return this;
     }
 
@@ -66,14 +40,21 @@ public class User {
         return this;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public User setRole(String role) {
+    public User setRole(Role role) {
         this.role = role;
         return this;
     }
 
+    public String getUsername() {
+        return username;
+    }
 
+    public User setUsername(String username) {
+        this.username = username;
+        return this;
+    }
 }
